@@ -1,1 +1,1 @@
-complete : lesson-01, lesson-02,
+- complete : lesson-01, lesson-02, lesson-03
