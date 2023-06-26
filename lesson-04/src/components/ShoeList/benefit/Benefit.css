@@ -1,0 +1,18 @@
+.benefit {
+    width: 261px;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    background: #DFD8D8;
+    border-radius: 5px;
+    border: 1px solid #c6bfbf;
+}
+
+.icon {
+    width: 15%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    font-size: 30px;
+}
