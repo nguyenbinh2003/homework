@@ -22,7 +22,7 @@ const HomeBody = ({ data, setData }) => {
               onClick={() => {
                 onAddStudentHandler(productItem);
               }}
-              productName={productItem.Product_name}
+              productName={productItem.productName}
               price={productItem.price}
               discount={productItem.discount}
             />
