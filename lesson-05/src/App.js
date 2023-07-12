@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import Header from "./components/Header";
 import HomeBody from "./components/HomeBody";
 import Cart from "./components/Cart";
+import MyStore from "./contexts/MyStore";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import CartDetail from "./components/CartDetail";
 
-// ["abc", "xyz",...]
 const productList = [
   { name: "Adidas", id: 1, price: 10, discount: 20 },
   { name: "Nike", id: 2, price: 15, discount: 30 },
@@ -15,35 +17,60 @@ const productList = [
   { name: "Fila", id: 8, price: 14, discount: 28 },
   { name: "Saucony", id: 9, price: 13, discount: 17 },
   { name: "Vans", id: 10, price: 16, discount: 35 },
-  // { name: 'Converse', id: 11, price: 19, discount: 15 },
-  // { name: 'Mizuno', id: 12, price: 22, discount: 20 },
-  // { name: 'Salomon', id: 13, price: 24, discount: 12 },
-  // { name: 'Asolo', id: 14, price: 27, discount: 24 },
-  // { name: 'Mammut', id: 15, price: 30, discount: 10 },
-  // { name: 'Merrell', id: 16, price: 23, discount: 22 },
-  // { name: 'La Sportiva', id: 17, price: 28, discount: 18 },
-  // { name: 'Hoka One One', id: 18, price: 25, discount: 30 },
-  // { name: 'Brooks', id: 19, price: 21, discount: 25 },
-  // { name: 'Altra', id: 20, price: 26, discount: 28 },
 ];
 
 const App = () => {
   const [count, setCount] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const onDeleteHandler = () => {
+    const filterDataList = count.filter((productItem) => {
+      return count[0].id !== productItem.id;
+    });
+    setCount(filterDataList);
+  };
+  // const onCartItemHandler = () => {
+  //   const filterCartItem = count.filter((productItem) => {
+  //     console.log(productItem);
+  //     return count[0].id == productItem.id;
+  //   });
+  //   setCount(filterCartItem);
+  // };
 
-  console.log(count.id);
   return (
-    <div className="container-fluid mx-auto" style={{ maxWidth: "1280px" }}>
-      <Header count={count} />
-      <HomeBody
-        productList={productList}
-        setCount={setCount}
-        count={count}
-        selectedProduct={selectedProduct}
-        setSelectedProduct={setSelectedProduct}
-      />
-      <Cart productList={productList} setCount={setCount} count={count} />
-    </div>
+    <BrowserRouter>
+      <MyStore.Provider
+        value={{
+          count: count,
+          setCount,
+          selectedProduct: selectedProduct,
+          setSelectedProduct,
+          productList: productList,
+          onDeleteHandler,
+          // onCartItemHandler,
+        }}
+      >
+        <div className="container-fluid mx-auto" style={{ maxWidth: "1280px" }}>
+          <Header />
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <HomeBody
+                  productList={productList}
+                  setCount={setCount}
+                  count={count}
+                  selectedProduct={selectedProduct}
+                  setSelectedProduct={setSelectedProduct}
+                />
+              }
+            />
+            <Route path="/cart" element={<Cart count={count} />} />
+            <Route path="/cart/:cartId" element={<CartDetail />} />
+            <Route path="*" element={<h1></h1>} />
+          </Routes>
+        </div>
+      </MyStore.Provider>
+    </BrowserRouter>
   );
 };
 

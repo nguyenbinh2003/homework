@@ -1,15 +1,21 @@
 import React from "react";
+import { useContext } from "react";
 import { BiCart } from "react-icons/bi";
+import MyStore from "../contexts/MyStore";
+import { Link } from "react-router-dom";
 
-const Header = ({ count }) => {
+const Header = () => {
+  const myStore = useContext(MyStore);
   return (
     <>
       <nav
-        className="navbar shadow p-3"
-        style={{ background: " #e3f2fd" }}
+        className="navbar shadow p-3 rounded"
+        style={{ background: "#e3f2fd" }}
       >
         <div className="container-fluid">
-          <a className="navbar-brand">SHOP APP</a>
+          <Link to="/" className="navbar-brand">
+            <strong>SHOP APP</strong>
+          </Link>
           <form className="d-flex" role="search">
             <input
               className="form-control me-2"
@@ -17,11 +23,13 @@ const Header = ({ count }) => {
               placeholder="Nhập tên sản phẩm ..."
               aria-label="Search"
             />
-            <h4 style={{ paddingRight: "5px" }}>
-              <BiCart size={32} />
-            </h4>
+            <Link to="/cart" className="text-dark">
+              <h4 style={{ paddingRight: "5px" }}>
+                <BiCart size={32} />
+              </h4>
+            </Link>
             <h4 className="text-danger fs-3" style={{ paddingRight: "5px" }}>
-              ({count.length})
+              ({myStore.count.length})
             </h4>
             <button className="btn btn-outline-secondary" type="submit">
               Search
